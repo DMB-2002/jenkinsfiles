@@ -14,16 +14,17 @@ pipeline {
         timestamps()            // говорит о том, что в выводе сборки я хочу видеть временные отметки, без нее все выводы будут без меток времмени
     }
     stages {
-    //    stage("docker login") {
-    //        steps {
-    //            echo " ============== docker login =================="
-    //            withCredentials([usernamePassword(credentialsId: 'dockerhub_semaev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    //                sh """
-    //                docker login -u $USERNAME -p $PASSWORD
-    //                """
-    //            }
-    //        }
-    //    }
+        stage("docker login") {
+            steps {
+                echo " ============== docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_dmb2002', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {    
+                // вводим здесь авторизационные данные 
+                    sh """
+                    docker login -u $USERNAME -p $PASSWORD      
+                    """ // эта команда логиниться на dockerhub по умолчанию
+                }
+            }
+        }
         stage("create docker image") {
             steps {
                 echo " ============== start building image =================="
@@ -32,13 +33,13 @@ pipeline {
                 }
             }
         }
-    //    stage("docker push") {
-    //        steps {
-    //            echo " ============== start pushing image =================="
-    //            sh '''
-    //            docker push semaev/toolbox:latest
-    //            '''
-    //        }
-    //    }
+        stage("docker push") {                      # этот stage отвечает за docker push
+            steps {
+                echo " ============== start pushing image =================="
+                sh '''
+                docker push dmb2002/toolbox:latest
+                '''
+            }
+        }
     }
 }
