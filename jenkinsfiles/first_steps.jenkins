@@ -1,0 +1,27 @@
+#!groovy
+// Check nginx properties   # любой комментарий
+properties([disableConcurrentBuilds()])     // св-во для этой сборки (запретить одновременные сборки), если задание уже запущено, чтобы следующее задание 
+// не запускалось до выполнения этого задания. Это нужно чтобы не возникало никаких конфликтов
+
+pipeline {
+    agent { 
+        label 'master'      // агент будет выбираться по метке master
+        }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))      // Discarder, который говорит, что нужно хранить логи последних 10 
+        // сборок и артефакты из последних 10 сборок
+        timestamps()            // говорит о том, что в выводе сборки я хочу видеть временные отметки, без нее все выводы будут без меток времмени
+    }
+    stages {
+        stage("First step") {       // описание stage
+            steps {
+                sh 'ssh root@nginx \'hostname\''      // описание шага 1, на локальной машине выполнить команду hostname
+            }
+        }
+        stage("Second step") {
+            steps {
+                sh 'ssh root@nginx \'uptime\''        // описание шага 2, на локальной машине выполнить команду uptime
+            }
+        }
+    }
+}
