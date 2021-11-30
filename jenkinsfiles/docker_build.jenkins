@@ -33,7 +33,7 @@ pipeline {
                 }
             }
         }
-        stage("docker push") {                      # этот stage отвечает за docker push
+        stage("docker push") {                      // этот stage отвечает за docker push
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
