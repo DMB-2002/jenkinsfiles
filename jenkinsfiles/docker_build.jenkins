@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo " ============== start building image =================="
                 dir ('docker/toolbox') {                                        // выполняет в директории docker/toolbox
-                	sh 'docker build . '               // команду собрать этот образ в текущей директории  // -t semaev/toolbox:latest .
+                	sh 'docker build -t semaev/toolbox:latest . '               // команду собрать этот образ в текущей директории  // -t semaev/toolbox:latest .
                 }
             }
         }
