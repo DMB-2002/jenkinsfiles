@@ -1,7 +1,6 @@
 FROM alpine        
 # взять базовый образ alpine
-RUN apk add --no-cache curl wget busybox-extras netcat-openbsd python && \
-    apk add --update --no-cache py-pip bash && \      
+RUN apk add --update --no-cache curl wget busybox-extras netcat-openbsd python py3-pip bash && \      
     pip install awscli                  
     # установка консоли для работы с амазоном
 RUN apk --purge -v del py-pip           
